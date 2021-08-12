@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-
-<fx:root alignment="center" hgap="10" style="-fx-background-color: #FF0000;" type="GridPane" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="Controller">
-</fx:root>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <ImageView fx:id="image" fitHeight="800.0" fitWidth="1200.0">
+         <image>
+            <Image url="@../../../../../../pics/PhLN-IYG488.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

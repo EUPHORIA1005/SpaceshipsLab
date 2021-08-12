@@ -3,6 +3,7 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,11 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -41,6 +45,15 @@ public class Main extends Application{
         Pane pane = new Pane();
         pane.setPrefSize(WIDTH, HEIGHT);
 
+        FileInputStream inp = new FileInputStream("assets\\space.png");
+        Image image = new Image(inp);
+        BackgroundImage bgImage = new BackgroundImage(image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        Background background = new Background(bgImage);
+        pane.setBackground(background);
 
         //Creating text
         Text text = new Text (40, 20, "Points: 0");
@@ -48,21 +61,24 @@ public class Main extends Application{
         AtomicInteger points = new AtomicInteger();
         text.setScaleX(2); text.setScaleY(2);
         text.setSmooth(true);
-        text.setFill(Color.RED);
+        text.setFill(Color.ORANGE);
+
+        FileInputStream forShip = new FileInputStream("assets\\pngegg.png");
+        Image imgOfSpaceship = new Image(forShip);
+        ImageView imageOfShip = new ImageView(imgOfSpaceship);
+        imageOfShip.setFitHeight(32);
+        imageOfShip.setFitWidth(31);
+        imageOfShip.setX(590);
+        imageOfShip.setY(580);
+        pane.getChildren().add(imageOfShip);
 
         Ship ship = new Ship(600,600);
 
-        FileInputStream SpaceShipFile = new FileInputStream("assets\\Spaceship.png");
-        Image img = new Image(SpaceShipFile);
-        ImageView spaceShip = new ImageView();
-        spaceShip.setImage(img);
-
-        pane.getChildren().add(spaceShip);
 
         //Создаем астероиды
         Random rnd = new Random();
         List<Asteroid> asteroids = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 2; i++) {
 
             Asteroid asteroid = new Asteroid(rnd.nextInt((1200)), -100/*rnd.nextInt((100 - 50) + 50)*/);
             asteroids.add(asteroid);
@@ -104,15 +120,19 @@ public class Main extends Application{
             public void handle(long now){
                 if (pressedKeys.getOrDefault(KeyCode.LEFT, false) && ship.getTranslateX() > 0 ){
                     ship.moveLeft();
+                    imageOfShip.setX(ship.getTranslateX() - 10);
                 }
                 else if (pressedKeys.getOrDefault(KeyCode.RIGHT, false) && ship.getTranslateX() < WIDTH){
                     ship.moveRight();
+                    imageOfShip.setX(ship.getTranslateX() - 10);
                 }
                 else if (pressedKeys.getOrDefault(KeyCode.UP, false) && ship.getTranslateY() > 0){
                     ship.moveUp();
+                    imageOfShip.setY(ship.getTranslateY() - 20);
                 }
                 else if (pressedKeys.getOrDefault(KeyCode.DOWN, false)&& ship.getTranslateY() < HEIGHT){
                     ship.moveDown();
+                    imageOfShip.setY(ship.getTranslateY() - 20);
                 }
                 if (pressedKeys.getOrDefault(KeyCode.SPACE, false)) {
                     // we shoot
@@ -141,6 +161,7 @@ public class Main extends Application{
                         Text menuText = new Text(575, 400, "Your score is " + points.get() + System.lineSeparator() + "Press R to restart!");
                         menuText.setScaleY(3);
                         menuText.setScaleX(3);
+                        menuText.setFill(Color.ORANGE);
                         pane.getChildren().add(menuText);
 
                     }
